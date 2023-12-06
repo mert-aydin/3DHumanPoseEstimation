@@ -7,7 +7,7 @@ filename = 'demo'
 input_filename = filename + '.mp4'
 
 # Set the resolution of the input video file
-file_size = (1280, 720)
+file_size = (640, 360)
 
 # Define the output video file path
 output_filename = filename + '_output.mp4'
