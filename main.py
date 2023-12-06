@@ -1,49 +1,47 @@
-# Project: Human Pose Estimation Using Deep Learning in OpenCV
-# Author: Addison Sears-Collins
-# Date created: February 25, 2021
-# Description: A program that takes a video with a human as input and outputs
-# an annotated version of the video with the human's position and orientation..
+# Import OpenCV library for computer vision tasks
+import cv2 as cv
+from tqdm import tqdm
 
-# Reference: https://github.com/quanhua92/human-pose-estimation-opencv
+# Specify the input video file path
+filename = 'demo'
+input_filename = filename + '.mp4'
 
-# Import the important libraries
-import cv2 as cv  # Computer vision library
+# Set the resolution of the input video file
+file_size = (1280, 720)
 
-# Make sure the video file is in the same directory as your code
-filename = 'demo.mp4'
-file_size = (640, 360)  # Assumes 640x360 mp4 as the input video file
+# Define the output video file path
+output_filename = filename + '_output.mp4'
 
-# We want to save the output to a video file
-output_filename = 'demo_output.mp4'
+# Set the frame rate for the output video
 output_frames_per_second = 20.0
 
+# Define key body parts and their indices for pose estimation
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
               "LShoulder": 5, "LElbow": 6, "LWrist": 7, "RHip": 8, "RKnee": 9,
               "RAnkle": 10, "LHip": 11, "LKnee": 12, "LAnkle": 13, "REye": 14,
               "LEye": 15, "REar": 16, "LEar": 17, "Background": 18}
 
+# Define pairs of body parts to connect for visualizing the human skeleton
 POSE_PAIRS = [["Neck", "RShoulder"], ["Neck", "LShoulder"], ["RShoulder", "RElbow"],
               ["RElbow", "RWrist"], ["LShoulder", "LElbow"], ["LElbow", "LWrist"],
               ["Neck", "RHip"], ["RHip", "RKnee"], ["RKnee", "RAnkle"], ["Neck", "LHip"],
               ["LHip", "LKnee"], ["LKnee", "LAnkle"], ["Neck", "Nose"], ["Nose", "REye"],
               ["REye", "REar"], ["Nose", "LEye"], ["LEye", "LEar"]]
 
-# Width and height of training set
-inWidth = 368
-inHeight = 368
-
+# Load the pre-trained neural network model for pose estimation
 net = cv.dnn.readNetFromTensorflow("graph_opt.pb")
 
-cap = cv.VideoCapture(filename)
+# Open the video file for reading
+cap = cv.VideoCapture(input_filename)
 
-# Create a VideoWriter object, so we can save the video output
-fourcc = cv.VideoWriter_fourcc(*'mp4v')
-result = cv.VideoWriter(output_filename,
-                        fourcc,
-                        output_frames_per_second,
-                        file_size)
-# Process the video
-while cap.isOpened():
+# Create a VideoWriter object to write the processed video
+result = cv.VideoWriter(output_filename, cv.VideoWriter_fourcc(*'mp4v'),
+                        output_frames_per_second, file_size)
+
+# Process the video frame by frame with a progress bar
+frame_count = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
+
+for _ in tqdm(range(frame_count), desc="Processing Video"):
     hasFrame, frame = cap.read()
     if not hasFrame:
         break
@@ -51,32 +49,29 @@ while cap.isOpened():
     frameWidth = frame.shape[1]
     frameHeight = frame.shape[0]
 
-    net.setInput(cv.dnn.blobFromImage(frame, 1.0, (inWidth, inHeight), (127.5, 127.5, 127.5), swapRB=True, crop=False))
+    # Prepare the frame for neural network input
+    net.setInput(cv.dnn.blobFromImage(frame, 1.0, (368, 368), (127.5, 127.5, 127.5), swapRB=True, crop=False))
     out = net.forward()
-    out = out[:, :19, :, :]  # MobileNet output [1, 57, -1, -1], we only need the first 19 elements
 
-    assert (len(BODY_PARTS) == out.shape[1])
+    # Extract the first 19 elements (corresponding to the body parts) from the network output
+    out = out[:, :19, :, :]
 
     points = []
     for i in range(len(BODY_PARTS)):
-        # Slice heatmap of corresponging body's part.
         heatMap = out[0, i, :, :]
 
-        # Originally, we try to find all the local maximums. To simplify a sample
-        # we just find a global one. However only a single pose at the same time
-        # could be detected this way.
+        # Find the global maximum in the heatMap to get the most confident point of the body part
         _, conf, _, point = cv.minMaxLoc(heatMap)
         x = (frameWidth * point[0]) / out.shape[3]
         y = (frameHeight * point[1]) / out.shape[2]
-        # Add a point if it's confidence is higher than threshold.
-        # Feel free to adjust this confidence value.
+
+        # Add the detected point to the points list if its confidence is high enough
         points.append((int(x), int(y)) if conf > 0.2 else None)
 
+    # Draw lines and ellipses to connect and represent the detected body parts
     for pair in POSE_PAIRS:
         partFrom = pair[0]
         partTo = pair[1]
-        assert (partFrom in BODY_PARTS)
-        assert (partTo in BODY_PARTS)
 
         idFrom = BODY_PARTS[partFrom]
         idTo = BODY_PARTS[partTo]
@@ -86,15 +81,14 @@ while cap.isOpened():
             cv.ellipse(frame, points[idFrom], (3, 3), 0, 0, 360, (255, 0, 0), cv.FILLED)
             cv.ellipse(frame, points[idTo], (3, 3), 0, 0, 360, (255, 0, 0), cv.FILLED)
 
+    # Write process time of each frame
     t, _ = net.getPerfProfile()
     freq = cv.getTickFrequency() / 1000
     cv.putText(frame, '%.2fms' % (t / freq), (10, 20), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
-    # Write the frame to the output video file
+    # Write the processed frame to the output video
     result.write(frame)
 
-# Stop when the video is finished
+# Release the video capture and writer resources
 cap.release()
-
-# Release the video recording
 result.release()
