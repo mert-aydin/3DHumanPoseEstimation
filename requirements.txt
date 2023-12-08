@@ -4,9 +4,56 @@
 #
 #    pip-compile
 #
+absl-py==2.0.0
+    # via mediapipe
+attrs==23.1.0
+    # via mediapipe
+cffi==1.16.0
+    # via sounddevice
+contourpy==1.2.0
+    # via matplotlib
+cycler==0.12.1
+    # via matplotlib
+flatbuffers==23.5.26
+    # via mediapipe
+fonttools==4.46.0
+    # via matplotlib
+importlib-resources==6.1.1
+    # via matplotlib
+kiwisolver==1.4.5
+    # via matplotlib
+matplotlib==3.8.2
+    # via mediapipe
+mediapipe==0.10.8
+    # via -r requirements.in
 numpy==1.26.2
-    # via opencv-python
+    # via
+    #   contourpy
+    #   matplotlib
+    #   mediapipe
+    #   opencv-contrib-python
+    #   opencv-python
+opencv-contrib-python==4.8.1.78
+    # via mediapipe
 opencv-python==4.8.1.78
     # via -r requirements.in
+packaging==23.2
+    # via matplotlib
+pillow==10.1.0
+    # via matplotlib
+protobuf==3.20.3
+    # via mediapipe
+pycparser==2.21
+    # via cffi
+pyparsing==3.1.1
+    # via matplotlib
+python-dateutil==2.8.2
+    # via matplotlib
+six==1.16.0
+    # via python-dateutil
+sounddevice==0.4.6
+    # via mediapipe
 tqdm==4.66.1
     # via -r requirements.in
+zipp==3.17.0
+    # via importlib-resources
