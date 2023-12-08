@@ -1,9 +1,11 @@
+import sys
+
 # Import OpenCV library for computer vision tasks
 import cv2 as cv
 from tqdm import tqdm
 
 # Specify the input video file path
-filename = 'demo'
+filename = 'demo' if len(sys.argv) < 2 else sys.argv[1]
 input_filename = filename + '.mp4'
 
 # Set the resolution of the input video file
