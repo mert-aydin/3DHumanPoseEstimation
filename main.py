@@ -2,18 +2,16 @@
 import cv2 as cv
 from tqdm import tqdm
 
-# Specify the input video file path
+# Specify the input/output video file paths
 filename = 'demo'
 input_filename = filename + '.mp4'
+output_filename = filename + '_output.mp4'
 
 # Set the resolution of the input video file
 file_size = (640, 360)
 
-# Define the output video file path
-output_filename = filename + '_output.mp4'
-
-# Set the frame rate for the output video
-output_frames_per_second = 20.0
+# Set the frame rate for the output video (should match input video frame rate)
+output_frames_per_second = 30
 
 # Define key body parts and their indices for pose estimation
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,
