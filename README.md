@@ -6,6 +6,8 @@ https://github.com/mert-aydin/3DHumanPoseEstimation/assets/23168063/3fd4a5ac-c23
 
 https://github.com/mert-aydin/3DHumanPoseEstimation/assets/23168063/19ea9a7c-f988-4a21-97f5-a054680318a7
 
+https://github.com/mert-aydin/3DHumanPoseEstimation/assets/23168063/a93d77a7-6ee2-487a-8f43-463bd5fdb9a8
+
 ## References
 
 ### Human Pose Estimation using Deep Learning in OpenCV
