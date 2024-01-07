@@ -4,6 +4,7 @@ help:
 	@echo "--------------------------------------------------------------------"
 	@echo "                    3D Human Post Estimation                        "
 	@echo "             BOUN SWE 583 - Computer Vision project                 "
+	@echo "                     Mert Aydin & Sadik Kuzu                        "
 	@echo "--------------------------------------------------------------------"
 	@echo "              This Makefile assumes you have Docker                 "
 	@echo "--------------------------------------------------------------------"
