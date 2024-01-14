@@ -10,10 +10,10 @@ input_filename = filename + '.mp4'
 output_filename = filename + '_output_openpose.mp4'
 
 # Set the resolution of the input video file
-file_size = (640, 360)
+file_size = (1920, 1080)
 
 # Set the frame rate for the output video (should match input video frame rate)
-output_frames_per_second = 30
+output_frames_per_second = 25
 
 # Define key body parts and their indices for pose estimation
 BODY_PARTS = {"Nose": 0, "Neck": 1, "RShoulder": 2, "RElbow": 3, "RWrist": 4,

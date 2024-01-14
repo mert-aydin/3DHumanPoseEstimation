@@ -60,6 +60,9 @@ filename = 'demo' if len(sys.argv) < 2 else sys.argv[1]
 input_filename = filename + '.mp4'
 output_filename = filename + '_output_mediapipe.mp4'
 
+# Set the frame rate for the output video (should match input video frame rate)
+output_frames_per_second = 25
+
 
 # Function to process video frames using the pose detector
 def show(data, detector, name):
@@ -74,7 +77,7 @@ def show(data, detector, name):
     result = cv2.VideoWriter(
         f'{name}',
         cv2.VideoWriter_fourcc(*'mp4v'),
-        20,
+        output_frames_per_second,
         size,
     )
 
