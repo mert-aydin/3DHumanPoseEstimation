@@ -4,7 +4,7 @@ import sys
 from tqdm import tqdm
 
 
-class PoseDetection():
+class PoseDetection:
     def __init__(
             self,
             static_image_mode=False,
@@ -14,7 +14,7 @@ class PoseDetection():
             smooth_segmentation=True,
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5,
-        ):
+    ):
         self.static_image_mode = static_image_mode
         self.model_complexity = model_complexity
         self.smooth_landmarks = smooth_landmarks
@@ -36,8 +36,8 @@ class PoseDetection():
         )
 
     def find(self, img, draw=True):
-        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        self.results = self.pose.process(imgRGB)
+        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        self.results = self.pose.process(img_rgb)
 
         if self.results.pose_landmarks:
             if draw:
@@ -55,9 +55,10 @@ filename = 'demo' if len(sys.argv) < 2 else sys.argv[1]
 input_filename = filename + '.mp4'
 output_filename = filename + '_output_mediapipe.mp4'
 
+
 def show(data, detector, name):
     cap = cv2.VideoCapture(data)
-    size = int(cap.get(3)),int(cap.get(4))
+    size = int(cap.get(3)), int(cap.get(4))
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     print(f"Video Size: {size}")
     print(f"Processing Video: {frame_count} frames")
@@ -79,5 +80,6 @@ def show(data, detector, name):
         result.write(frame)
     cap.release()
     result.release()
+
 
 show(input_filename, PoseDetection(), output_filename)
