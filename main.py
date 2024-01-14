@@ -7,7 +7,7 @@ from tqdm import tqdm
 # Specify the input/output video file paths
 filename = 'demo' if len(sys.argv) < 2 else sys.argv[1]
 input_filename = filename + '.mp4'
-output_filename = filename + '_output.mp4'
+output_filename = filename + '_output_openpose.mp4'
 
 # Set the resolution of the input video file
 file_size = (640, 360)
