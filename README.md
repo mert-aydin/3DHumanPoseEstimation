@@ -2,11 +2,11 @@
 
 ## BOUN SWE 583 - Computer Vision project
 
-https://github.com/mert-aydin/3DHumanPoseEstimation/assets/23168063/3fd4a5ac-c236-4817-a453-75a9f0953091
+https://github.com/sadikkuzu/3DHumanPoseEstimation/assets/23168063/747948ef-d263-4926-9b6c-6bfcdc4b62ce
 
-https://github.com/mert-aydin/3DHumanPoseEstimation/assets/23168063/19ea9a7c-f988-4a21-97f5-a054680318a7
+https://github.com/sadikkuzu/3DHumanPoseEstimation/assets/23168063/aec9cd83-886d-491b-b1b0-013de832b598
 
-https://github.com/mert-aydin/3DHumanPoseEstimation/assets/23168063/a93d77a7-6ee2-487a-8f43-463bd5fdb9a8
+https://github.com/sadikkuzu/3DHumanPoseEstimation/assets/23168063/75c7b50c-cad8-4267-803f-bc27eef9551e
 
 ## References
 
